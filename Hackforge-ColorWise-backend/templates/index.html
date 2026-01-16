@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ColorWise</title>
+
+  <!-- ✅ Flask static CSS -->
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+  />
+</head>
+<body>
+
+  <!-- Progress bar -->
+  <div id="progress">
+    <div id="progress-bar"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step active">
+    <h2>Choose Age</h2>
+    <select id="age">
+      <option value="18-25">18–25</option>
+      <option value="26-30">26–30</option>
+      <option value="31-40">31–40</option>
+    </select>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <h2>Choose Gender</h2>
+    <select id="gender">
+      <option value="female">Female</option>
+      <option value="male">Male</option>
+      <option value="non-binary">Non-binary</option>
+    </select>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step">
+    <h2>Choose Style</h2>
+    <select id="style">
+      <option value="casual">Casual</option>
+      <option value="chic">Chic</option>
+      <option value="formal">Formal</option>
+      <option value="sport">Sport</option>
+    </select>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step">
+    <h2>Choose Palette</h2>
+    <select id="palette">
+      <option value="neutral">Neutral</option>
+      <option value="warm">Warm</option>
+      <option value="cool">Cool</option>
+    </select>
+    <button onclick="getOutfit()">Get Outfit</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="step">
+    <h2>Your Outfit</h2>
+    <div id="output"></div>
+  </div>
+
+  <!-- ✅ Flask static JS (must be at bottom) -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

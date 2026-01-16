@@ -1,0 +1,32 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+#progress {
+  width: 80%;
+  height: 8px;
+  background: #ddd;
+  margin: 20px auto;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #4caf50;
+  transition: width 0.3s ease;
+}
+
+img {
+  width: 140px;
+  margin: 10px;
+  border-radius: 8px;
+}
