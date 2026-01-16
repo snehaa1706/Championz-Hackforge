@@ -1,6 +1,170 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { Route, Switch, Link } from "wouter";
+import bg from "./assets/background.jpg"; // make sure this file exists
 
-export default defineConfig({
-  plugins: [react()],
-});
+function ProgressLine({ current, total }: { current: number; total: number }) {
+  const pct = total <= 1 ? 0 : Math.round(((current - 1) / (total - 1)) * 100);
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: 3,
+        background: "rgba(255,255,255,0.25)",
+        zIndex: 9999,
+      }}
+    >
+      <div
+        style={{
+          width: `${pct}%`,
+          height: "100%",
+          background: "rgba(255,255,255,0.95)",
+          transition: "width 300ms ease",
+        }}
+      />
+    </div>
+  );
+}
+
+function Landing() {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        display: "grid",
+        placeItems: "center",
+        padding: 24,
+      }}
+    >
+      <ProgressLine current={1} total={6} />
+
+      <div style={{ textAlign: "center", color: "white" }}>
+        <h1 style={{ fontSize: 64, margin: 0, letterSpacing: 1 }}>colorwise</h1>
+        <p style={{ fontSize: 18, marginTop: 12, opacity: 0.9, maxWidth: 520 }}>
+          Discover your true style potential with our intelligent wardrobe assistant.
+        </p>
+
+        <Link href="/questionnaire">
+          <a
+            style={{
+              display: "inline-block",
+              marginTop: 28,
+              padding: "16px 36px",
+              borderRadius: 999,
+              border: "1px solid rgba(255,255,255,0.45)",
+              background: "rgba(255,255,255,0.18)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              color: "white",
+              textDecoration: "none",
+              fontSize: 18,
+              cursor: "pointer",
+              transition: "transform 150ms ease, background 150ms ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.04)";
+              e.currentTarget.style.background = "rgba(255,255,255,0.28)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+              e.currentTarget.style.background = "rgba(255,255,255,0.18)";
+            }}
+          >
+            Start Questionnaire
+          </a>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function Questionnaire() {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#0b1220",
+        color: "white",
+        display: "grid",
+        placeItems: "center",
+        padding: 24,
+      }}
+    >
+      <ProgressLine current={2} total={6} />
+
+      <div style={{ width: "min(720px, 92vw)" }}>
+        <h2 style={{ fontSize: 34, marginBottom: 16, textAlign: "center" }}>
+          Select your gender
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: 14,
+            marginTop: 22,
+          }}
+        >
+          {["Female", "Male", "Other"].map((label) => (
+            <button
+              key={label}
+              style={{
+                padding: 18,
+                borderRadius: 18,
+                border: "1px solid rgba(255,255,255,0.25)",
+                background: "rgba(255,255,255,0.08)",
+                color: "white",
+                cursor: "pointer",
+                fontSize: 18,
+                transition: "transform 150ms ease, background 150ms ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.14)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+              }}
+              onClick={() => alert(`Selected: ${label} (we’ll save this next)`)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 26, textAlign: "center" }}>
+          <Link href="/">
+            <a style={{ color: "rgba(255,255,255,0.85)" }}>← Back</a>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NotFound() {
+  return (
+    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center" }}>
+      <div style={{ textAlign: "center" }}>
+        <h2 style={{ marginBottom: 10 }}>404</h2>
+        <Link href="/"><a>Go home</a></Link>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Switch>
+      <Route path="/" component={Landing} />
+      <Route path="/questionnaire" component={Questionnaire} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
