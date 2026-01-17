@@ -202,9 +202,26 @@ def pair():
         "recommendations": results[:5],
         "total_combinations": len(results)
     })
+@app.route("/reset", methods=["POST"])
+def reset_uploads():
+    files = [f for f in os.listdir(app.config["UPLOAD_FOLDER"]) if allowed_file(f)]
+    deleted = []
+
+    for f in files:
+        try:
+            os.remove(os.path.join(app.config["UPLOAD_FOLDER"], f))
+            deleted.append(f)
+        except Exception as e:
+            print("Could not delete", f, e)
+
+    return jsonify({
+        "message": "Uploads cleared for new session",
+        "deleted_files": deleted
+    })
+
 
 # ----------------------------
 # Run
 # ----------------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
